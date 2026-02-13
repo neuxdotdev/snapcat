@@ -1,10 +1,8 @@
-//! Data structures representing the output of a snapcat operation.
-
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use std::path::PathBuf;
 
 /// A single file entry with its path, content, and metadata.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct FileEntry {
     /// The full path to the file.
     pub path: PathBuf,
@@ -21,7 +19,7 @@ pub struct FileEntry {
 }
 
 /// The complete result of a snapcat operation.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SnapcatResult {
     /// A visual tree representation of the directory structure.
     ///

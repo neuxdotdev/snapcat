@@ -6,7 +6,7 @@
 use clap::{Parser, ValueEnum};
 #[cfg(feature = "streaming")]
 use snapcat::SnapcatStream;
-use snapcat::{BinaryDetection, SnapcatBuilder, SnapcatOptions, SnapcatResult, snapcat};
+use snapcat::{output, BinaryDetection, SnapcatBuilder, SnapcatOptions, SnapcatResult, snapcat};
 #[cfg(feature = "streaming")]
 use std::io::{self, Write};
 use std::path::PathBuf;
@@ -40,7 +40,7 @@ struct Cli {
     #[arg(long)]
     file_size_limit: Option<u64>,
 
-    /// Pretty output (indented JSON or colored tree)
+    /// Pretty output (indented JSON or formatted markdown/text)
     #[arg(short, long)]
     pretty: bool,
 
@@ -79,6 +79,8 @@ enum OutputFormat {
     Json,
     Tree,
     Paths,
+    Markdown,
+    Text,
 }
 
 /// Parse string into BinaryDetection enum.
@@ -122,7 +124,7 @@ fn main() {
     let (options, format, _mode, pretty, color) = cli.into_options();
 
     #[cfg(feature = "streaming")]
-    if matches!(mode, Mode::Streaming) {
+    if mode == Mode::Streaming {
         run_streaming(&options, pretty);
         return;
     }
@@ -200,6 +202,14 @@ fn output_result(result: &SnapcatResult, format: OutputFormat, pretty: bool, _co
             for file in &result.files {
                 println!("{}", file.path.display());
             }
+        }
+        OutputFormat::Markdown => {
+            let out = output::format_result(result, output::OutputFormat::Markdown, pretty);
+            print!("{}", out);
+        }
+        OutputFormat::Text => {
+            let out = output::format_result(result, output::OutputFormat::Text, pretty);
+            print!("{}", out);
         }
     }
 }
