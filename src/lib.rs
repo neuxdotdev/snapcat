@@ -35,14 +35,14 @@
 pub mod engine;
 pub mod error;
 pub mod options;
+pub mod output;
 pub mod tree;
 pub mod types;
-pub mod output;
 
 #[cfg(feature = "streaming")]
 pub use engine::SnapcatStream;
 pub use engine::snapcat;
 pub use error::SnapcatError;
 pub use options::{BinaryDetection, SnapcatBuilder, SnapcatOptions};
+pub use output::{OutputFormat, format_result, write_result_to_file};
 pub use types::{FileEntry, SnapcatResult};
-pub use output::{format_result, write_result_to_file, OutputFormat};

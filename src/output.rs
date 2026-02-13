@@ -52,7 +52,9 @@ pub fn write_result_to_file(
 fn format_markdown(result: &SnapcatResult) -> String {
     let mut out = String::with_capacity(1024);
     out.push_str(&result.tree);
-    if !result.tree.ends_with('\n') { out.push('\n'); }
+    if !result.tree.ends_with('\n') {
+        out.push('\n');
+    }
     out.push('\n');
 
     for file in &result.files {
@@ -62,7 +64,9 @@ fn format_markdown(result: &SnapcatResult) -> String {
 
         out.push_str(&format!("## {}\n\n```{}\n", path_str, lang));
         out.push_str(&file.content);
-        if !file.content.ends_with('\n') { out.push('\n'); }
+        if !file.content.ends_with('\n') {
+            out.push('\n');
+        }
         out.push_str("```\n\n");
     }
     out
@@ -72,13 +76,17 @@ fn format_text(result: &SnapcatResult) -> String {
     let mut out = String::with_capacity(1024);
     out.push_str("Directory Tree:\n");
     out.push_str(&result.tree);
-    if !result.tree.ends_with('\n') { out.push('\n'); }
+    if !result.tree.ends_with('\n') {
+        out.push('\n');
+    }
     out.push_str("\n\nFiles:\n");
 
     for file in &result.files {
         out.push_str(&format!("\n--- {} ---\n", file.path.display()));
         out.push_str(&file.content);
-        if !file.content.ends_with('\n') { out.push('\n'); }
+        if !file.content.ends_with('\n') {
+            out.push('\n');
+        }
     }
     out
 }
@@ -93,12 +101,29 @@ fn format_json(result: &SnapcatResult, pretty: bool) -> String {
 
 fn language_from_extension(ext: &str) -> &'static str {
     match ext {
-        "rs" => "rust", "toml" => "toml", "json" => "json", "md" | "markdown" => "markdown",
-        "txt" => "text", "html" | "htm" => "html", "css" => "css", "js" => "javascript",
-        "py" => "python", "sh" | "bash" => "bash", "yml" | "yaml" => "yaml", "xml" => "xml",
-        "c" => "c", "cpp" | "cc" | "cxx" => "cpp", "h" => "c", "hpp" => "cpp",
-        "go" => "go", "rb" => "ruby", "php" => "php", "swift" => "swift",
-        "kt" | "kts" => "kotlin", "scala" => "scala", "dart" => "dart",
+        "rs" => "rust",
+        "toml" => "toml",
+        "json" => "json",
+        "md" | "markdown" => "markdown",
+        "txt" => "text",
+        "html" | "htm" => "html",
+        "css" => "css",
+        "js" => "javascript",
+        "py" => "python",
+        "sh" | "bash" => "bash",
+        "yml" | "yaml" => "yaml",
+        "xml" => "xml",
+        "c" => "c",
+        "cpp" | "cc" | "cxx" => "cpp",
+        "h" => "c",
+        "hpp" => "cpp",
+        "go" => "go",
+        "rb" => "ruby",
+        "php" => "php",
+        "swift" => "swift",
+        "kt" | "kts" => "kotlin",
+        "scala" => "scala",
+        "dart" => "dart",
         _ => "",
     }
 }

@@ -6,7 +6,7 @@
 use clap::{Parser, ValueEnum};
 #[cfg(feature = "streaming")]
 use snapcat::SnapcatStream;
-use snapcat::{output, BinaryDetection, SnapcatBuilder, SnapcatOptions, SnapcatResult, snapcat};
+use snapcat::{BinaryDetection, SnapcatBuilder, SnapcatOptions, SnapcatResult, output, snapcat};
 #[cfg(feature = "streaming")]
 use std::io::{self, Write};
 use std::path::PathBuf;
