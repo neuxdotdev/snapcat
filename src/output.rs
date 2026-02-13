@@ -1,7 +1,6 @@
 //! Output formatting for snapcat results.
 //!
-//! Provides functions to format a [`SnapcatResult`] into Markdown, plain text, or JSON.
-//! All formatting preserves the exact content of files and the directory tree.
+//! Flexible and clean formatting for [`SnapcatResult`] into Markdown, plain text, or JSON.
 
 use crate::{SnapcatError, SnapcatResult};
 use std::fs;
@@ -16,7 +15,6 @@ pub enum OutputFormat {
 }
 
 impl OutputFormat {
-    /// Returns the conventional file extension for this format.
     pub fn extension(&self) -> &'static str {
         match self {
             OutputFormat::Markdown => "md",
@@ -42,38 +40,45 @@ pub fn write_result_to_file(
     path: impl AsRef<Path>,
     pretty: bool,
 ) -> Result<(), SnapcatError> {
-    let content = format_result(result, format, pretty);
-    fs::write(&path, content).map_err(|e| SnapcatError::io(path.as_ref(), e))?;
-    Ok(())
+    fs::write(&path, format_result(result, format, pretty))
+        .map_err(|e| SnapcatError::io(path.as_ref(), e))
 }
 
-// ----------------------- Internal formatting -----------------------
+// ----------------------- Internal helpers -----------------------
 
-fn format_markdown(result: &SnapcatResult) -> String {
-    let mut out = String::with_capacity(1024);
-    out.push_str(&result.tree);
-    if !result.tree.ends_with('\n') {
-        out.push('\n');
+/// Wrap content in a code block with optional language
+fn code_block(content: &str, lang: &str) -> String {
+    let mut s = String::new();
+    s.push_str(&format!("```{}\n", lang));
+    s.push_str(content);
+    if !content.ends_with('\n') {
+        s.push('\n');
     }
-    out.push('\n');
+    s.push_str("```\n");
+    s
+}
 
+/// Formats as Markdown with tree and file sections
+fn format_markdown(result: &SnapcatResult) -> String {
+    let mut out = String::with_capacity(2048);
+
+    // Tree as code block
+    out.push_str(&code_block(&result.tree, ""));
+
+    // Files
     for file in &result.files {
         let path_str = file.path.display().to_string();
         let ext = file.path.extension().and_then(|e| e.to_str()).unwrap_or("");
-        let lang = language_from_extension(ext);
-
-        out.push_str(&format!("## {}\n\n```{}\n", path_str, lang));
-        out.push_str(&file.content);
-        if !file.content.ends_with('\n') {
-            out.push('\n');
-        }
-        out.push_str("```\n\n");
+        out.push_str(&format!("## {}\n\n", path_str));
+        out.push_str(&code_block(&file.content, language_from_extension(ext)));
     }
+
     out
 }
 
+/// Formats as plain text with simple separators
 fn format_text(result: &SnapcatResult) -> String {
-    let mut out = String::with_capacity(1024);
+    let mut out = String::with_capacity(2048);
     out.push_str("Directory Tree:\n");
     out.push_str(&result.tree);
     if !result.tree.ends_with('\n') {
@@ -88,9 +93,11 @@ fn format_text(result: &SnapcatResult) -> String {
             out.push('\n');
         }
     }
+
     out
 }
 
+/// Formats as JSON, optionally pretty-printed
 fn format_json(result: &SnapcatResult, pretty: bool) -> String {
     if pretty {
         serde_json::to_string_pretty(result).expect("JSON serialization failed")
@@ -99,6 +106,7 @@ fn format_json(result: &SnapcatResult, pretty: bool) -> String {
     }
 }
 
+/// Maps file extensions to Markdown code block languages
 fn language_from_extension(ext: &str) -> &'static str {
     match ext {
         "rs" => "rust",
