@@ -14,3 +14,5 @@
 - Release v0.2.2 – make output module (`be3ba017`, tags: v0.2.2 by neuxdotdev)
 - release v0.2.2 (`6163f1e2` by neuxdotdev)
 - 📝 ci: add auto publish (`b4736220` by neuxdotdev)
+- ✨ Add Changelog (`62b16c79` by neuxdotdev)
+- release v0.2.3 (`3aea0b2b`, tags: v0.2.3 by neuxdotdev)
