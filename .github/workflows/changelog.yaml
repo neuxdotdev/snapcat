@@ -24,6 +24,9 @@ jobs:
           profile: minimal
           override: true
 
+      - name: Install rcgen
+        run: cargo install --git https://github.com/neuxdotdev/rcgen.git
+
       - name: Generate changelog
         run: rcgen gen -o CHANGELOG.md
 
