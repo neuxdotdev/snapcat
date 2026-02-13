@@ -20,19 +20,16 @@
 
 ## Installation
 
-Add this to your `Cargo.toml`:
-
-```toml
-[dependencies]
-snapcat = "0.1.1"
+```sh
+cargo add snapcat
 ```
 
-To enable optional features:
+### Enable optional features
 
-```toml
-[dependencies]
-snapcat = { version = "0.1.1", features = ["parallel", "streaming", "logging"] }
+```sh
+cargo add snapcat --features parallel,streaming,logging
 ```
+
 
 Available features:
 
