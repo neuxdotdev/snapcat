@@ -1,8 +1,4 @@
-use snapcat::{
-    snapcat,
-    SnapcatBuilder,
-    BinaryDetection,
-};
+use snapcat::{BinaryDetection, SnapcatBuilder, snapcat};
 use std::fs::{self, File};
 use std::io::Write;
 use tempfile::tempdir;
@@ -40,15 +36,13 @@ fn test_file_size_limit() {
         .file_size_limit(Some(100))
         .build();
     let result = snapcat(options).unwrap();
-    assert!(result.files[0]
-        .content
-        .contains("File too large"));
+    assert!(result.files[0].content.contains("File too large"));
 }
 #[test]
 fn test_binary_detection_simple() {
     let dir = tempdir().unwrap();
     let file_path = dir.path().join("bin.dat");
-    fs::write(&file_path, vec![0,1,2,3]).unwrap();
+    fs::write(&file_path, vec![0, 1, 2, 3]).unwrap();
     let options = SnapcatBuilder::new(dir.path())
         .binary_detection(BinaryDetection::Simple)
         .build();

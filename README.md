@@ -24,14 +24,14 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-snapcat = "0.1"
+snapcat = "0.1.1"
 ```
 
 To enable optional features:
 
 ```toml
 [dependencies]
-snapcat = { version = "0.1", features = ["parallel", "streaming", "logging"] }
+snapcat = { version = "0.1.1", features = ["parallel", "streaming", "logging"] }
 ```
 
 Available features:
@@ -209,7 +209,6 @@ std::fs::write("snapshot.json", json)?;
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
 
 See the [LICENSE](LICENSE) file for details.
-
 
 ## Contribution
 

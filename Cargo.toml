@@ -1,6 +1,6 @@
 [package]
 name = "snapcat"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "High-performance directory tree traversal and file content extraction library with configurable filtering, binary detection, and streaming support."
 authors = ["neuxdotdev <neuxdev1@gmail.com>"]

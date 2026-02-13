@@ -1,4 +1,4 @@
-use snapcat::{snapcat, SnapcatBuilder};
+use snapcat::{SnapcatBuilder, snapcat};
 use std::fs;
 use tempfile::tempdir;
 #[test]
