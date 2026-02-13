@@ -4,9 +4,9 @@
 //! walking a directory tree and outputting the result in various formats.
 
 use clap::{Parser, ValueEnum};
-use snapcat::{BinaryDetection, SnapcatBuilder, SnapcatOptions, snapcat, SnapcatResult};
 #[cfg(feature = "streaming")]
 use snapcat::SnapcatStream;
+use snapcat::{BinaryDetection, SnapcatBuilder, SnapcatOptions, SnapcatResult, snapcat};
 #[cfg(feature = "streaming")]
 use std::io::{self, Write};
 use std::path::PathBuf;
