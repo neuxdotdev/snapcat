@@ -1,0 +1,3 @@
+respect_gitignore = true
+parallel = false
+log_level = "info"
